@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2"
+ruby "3.0.2"
 
 gem "rmagick"
 gem "carrierwave"
@@ -20,13 +20,14 @@ gem "rails", "~> 7.0.3", ">= 7.0.3.1"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
-gem 'rails_12factor', group: :production
+
 
 # Use postgresql as the database for Active Record
 # gem "pg", "~> 1.1"
 #
 gem 'sqlite3', group: :development
-gem 'pg', '0.18.1', group: :production
+gem 'pg', '1.1', group: :production
+gem 'rails_12factor', group: :production
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
