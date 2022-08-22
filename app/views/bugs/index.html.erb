@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-8">
+    <h1>All Bugs</h1>
+  </div>
+  <div class="col-4">
+    <div class="float-right">
+      <% if current_user.user_type != 'Developer' %>
+        <%= link_to 'New Bug', new_bug_url, :class => 'btn btn-dark text-white' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-12">
+    <ul>
+      <% @bugs.each do |bug| %>
+        <li><%= link_to bug.title, bug %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

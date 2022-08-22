@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-8">
+    <h1><%= @project.name %></h1>
+  </div>
+  <div class="col-4">
+    <div class="mt-3 float-right">
+      <% if current_user.user_type == 'Manager' %>
+        <div class="btn-group">
+          <p><%= link_to "Edit Project Details", edit_project_path(@project), :class => 'btn btn-dark btn-sm' %></p>
+          &nbsp;
+          <p>
+            <%= link_to "Delete Project", project_path(@project), :class => 'btn btn-danger btn-sm', method: :delete, data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?" }
+            %>
+          </p>
+        </div>
+      <% elsif current_user.user_type == 'QA' %>
+        <a href="<%= new_project_bug_url(@project.id) %>" class="btn btn-dark text-white">Create New Bug</a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <br>
+  <div class="col-6 pr-5">
+    <h4>Description:</h4>
+    <p><%= @project.description %></p>
+  </div>
+  <div class="col-6">
+    <div class="float-left">
+      <h4>Project Created By:</h4>
+      <p><%= @user.name %> (<%= @user.user_type %>)</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-6 pr-5">
+    <%= render 'bugs/allbugs', project: @project %>
+  </div>
+  <div class="col-6">
+    <div class="float-left">
+      <% if current_user.user_type == 'Manager' %>
+        <h4>Users</h4>
+        <% @users.each do |user| %>
+          <li><%= link_to user.name, user %></li>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

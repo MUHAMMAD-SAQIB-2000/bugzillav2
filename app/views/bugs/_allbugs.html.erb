@@ -1,0 +1,13 @@
+<h4>Bugs</h4>
+
+<% if @project.bugs.present? %>
+
+  <ul>
+    <% @project.bugs.all.each do |bug| %>
+      <li><%= link_to bug.title, bug %></li>
+    <% end %>
+  </ul>
+
+<% else %>
+  <h5>No Bugs in Project :)</h5>
+<% end %>

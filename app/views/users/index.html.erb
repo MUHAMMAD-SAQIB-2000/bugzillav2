@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-8">
+    <h1>All Users</h1>
+  </div>
+  <div class="col-4">
+    <div class="float-right">
+      <% if current_user.user_type == 'Manager' %>
+        <%= link_to 'New User', new_user_url, :class => 'btn btn-info text-white' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-12">
+    <% if user_signed_in? %>
+      <% if current_user.user_type == 'Manager' %>
+
+        <ul>
+          <% @users.each do |user| %>
+            <li><%= link_to user.name, user %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+

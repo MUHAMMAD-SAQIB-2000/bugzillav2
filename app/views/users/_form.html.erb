@@ -1,0 +1,44 @@
+<%= form_with model: user do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+  <br>
+
+  <div>
+    <%= form.label :email %><br>
+    <%= form.text_field :email %>
+  </div>
+  <br>
+
+  <div>
+    <%= form.label :password %><br>
+    <%= form.text_field :password %>
+  </div>
+  <br>
+
+  <div>
+    <%= form.label :user_type %><br>
+    <%= form.select :user_type, %w[Developer Manager QA], selected: 'Developer'  %>
+  </div>
+  <br>
+
+  <br>
+  <!--  <%#= form.label :name, "Project Name" %>:-->
+  <%#= form.text_field :name, list: 'name' %>
+  <!--  <datalist id="name">-->
+  <%# Project.all.each do |project| %>
+  <!--      <option value="<%#= project.name %>"></option>-->
+  <%# end %>
+  <!--  </datalist>-->
+  <!--  <br>-->
+<%#= form_for :project do |f| %>
+
+  <%#= f.submit %>
+<%# end %>
+
+  <div>
+    <%= form.submit %><br>
+  </div>
+
+<% end %>

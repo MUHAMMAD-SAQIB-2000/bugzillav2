@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col-12">
+    <h3>Create Bug</h3>
+  </div>
+</div>
+
+<hr>
+
+<div class="px-5">
+  <%= form_with model: @bug do |form| %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+    <div class="row">
+      <div class="col-6 float-left">
+
+        <div class="row">
+          <div class="col-12">
+            <%= label_tag 'Users' %><br>
+            <%= form.select :assigned_to, options_for_select(@users.map { |user| [user.name, user.id] }), { prompt: "Select User" }, :id => 'user_search', :class => 'form-control' %>
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="col-12">
+            <%= label_tag 'Projects' %><br>
+            <%= form.select :project_id, options_for_select(@projects.map { |project| [project.name, project.id] }), { prompt: "Select Project" }, :id => 'project_search', :class => 'form-control' %>
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="col-12">
+            <%= form.label :title %><br>
+            <%= form.text_field :title, :class => 'form-control' %>
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="col-12">
+            <%= form.label :description %><br>
+            <%= form.text_area :description, :class => 'form-control' %>
+          </div>
+          <br>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="col-6">
+          <%= form.label :deadline %><br>
+          <%= form.date_field :deadline, :class => 'form-control' %>
+        </div>
+        <br>
+
+        <div class="col-12">
+          <%= form.label :screenshot %><br>
+          <%= form.file_field :screenshot, accept: 'image/png,image/gif', :class => 'btn btn-success' %>
+        </div>
+        <br>
+
+        <div class="col-5">
+          <%= form.label :bug_type %><br>
+          <%= form.select :bug_type, %w[Feature Bug], :class => 'bug-type form-select' %>
+          <!--          , selected: 'Feature'-->
+        </div>
+        <br>
+
+        <div id="bug-feature">
+          <div class="col-5">
+            <%= form.label :bug_status, 'Feature Status' %><br>
+            <%= form.select :bug_status, %w[New Started Completed] %>
+            <!--            , selected: 'New'-->
+          </div>
+          <br>
+        </div>
+
+        <div id="bug-bug">
+          <div class="col-12">
+            <%= form.label :bug_status, 'Bug Status' %><br>
+            <%= form.select :bug_status, %w[New Started Resolved] %>
+            <!--            , selected: 'New'-->
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-3">
+        <div>
+          <%= form.submit :class => 'btn btn-primary' %><br>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#project_search').select2({
+            // minimumInputLength: 2,
+            placeholder: 'Search Projects',
+            theme: "classic",
+            allowClear: true,
+            ajax: {
+                url: '/projects/project_search',
+                dataType: 'json',
+                data: function (params) {
+                    return {term: params.term};
+                },
+                processResults: function (result) {
+                    temp = result.map((obj) => ({text: obj.name, id: obj.id}))
+                    $('#project_search').append(temp);
+                    return {results: temp}
+                }
+            }
+        });
+        // $("#project_search").select2({data: [{id: '', text: ''}]});
+        // $('#project_search').val(' ').trigger('change');
+    });
+    $(document).ready(function () {
+        $('#user_search').select2({
+            // minimumInputLength: 2,
+            placeholder: 'Search Users',
+            allowClear: true,
+            theme: "classic",
+            ajax: {
+                url: '/users/user_search',
+                dataType: 'json',
+                data: function (params) {
+                    return {term: params.term};
+                },
+                processResults: function (result) {
+                    temp = result.map((obj) => ({text: obj.name, id: obj.id}))
+                    $('#user_search').append(temp);
+                    return {results: temp}
+                }
+            }
+        });
+    });
+
+    console.log('am i working?')
+    let select = document.getElementById('bug_bug_type');
+    let bug_feature = document.getElementById('bug-feature');
+    let bug_type = document.getElementById('bug-bug');
+
+    // bug_type.style.display = "none";
+    if (select != null) {
+        select.addEventListener('change', function () {
+            // console.log(select.value, " - ", typeof select.value);
+            if (select.value === '0' || select.value === 'Feature') {
+                console.log('feature')
+                bug_type.style.display = "none";
+                bug_feature.style.display = "block";
+            } else {
+                console.log('bug')
+                bug_type.style.display = "block";
+                bug_feature.style.display = "none";
+            }
+        });
+
+    }
+</script>

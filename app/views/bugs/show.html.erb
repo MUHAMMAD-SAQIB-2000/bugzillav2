@@ -1,0 +1,146 @@
+<div class="row">
+  <div class="col-6 float-left">
+    <%= link_to 'View Project', project_path(@project), :class => 'btn btn-info btn-sm' %>
+  </div>
+  <div class="col-6">
+    <div class="float-right">
+      <% if user_signed_in? && current_user.user_type == 'QA' %>
+        <div class="btn-group">
+          <p><%= link_to "Edit Bug", edit_bug_path(@bug), :class => 'btn btn-dark btn-sm' %></p>
+          &nbsp;
+          <p>
+            <%= link_to "Delete Bug", bug_path(@bug), :class => 'btn btn-danger btn-sm', method: :delete, data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?" }
+            %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<section style="background-color: #eee;" class="my-5">
+  <div class="container py-5">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center" style="width: 300px; height: 100%">
+            <%= image_tag @bug.screenshot_url(:thumb) if @bug.screenshot? %>
+            <h5 class="my-3"><%= @bug.bug_type %></h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Project Title:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= @project.name %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Bug Title:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= @bug.title %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Description</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= @bug.description %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Deadline</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= @bug.deadline %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Status</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= @bug.bug_status %></p>
+              </div>
+            </div>
+            <% if @user != nil %>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <% if current_user.id == @bug.user_id %>
+                    <p class="mb-0">Assigned To</p>
+                  <% else %>
+                    <p class="mb-0">Assigned By</p>
+                  <% end %>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= @user.id %> - <%= @user.name %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<% if user_signed_in? && current_user.user_type == 'Developer' && @bug.bug_status != 'Resolved' %>
+  <section class="mt-5 py-3" style="background-color: #eee;">
+    <div class="container my-5">
+      <% if @user == nil %>
+        <div class="row">
+          <div class="col-12">
+            <h1>Assign Bug To Me?</h1>
+          </div>
+          <br>
+          <div class="col-6 float-left">
+            <%= form_for assign_to_path(@bug) do |form| %>
+              <div>
+                <%= form.submit 'Assign Bug' %><br>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @user != nil && @bug.bug_status != 'Resolved' %>
+        <h1>Bug Status</h1>
+
+        <%= form_with model: (@bug) do |form| %>
+          <div>
+            <%= form.select :bug_status, %w[New Started Resolved], selected: @bug.bug_status %>
+          </div>
+          <br>
+          <div>
+            <%= form.submit 'Update Status' %><br>
+          </div>
+        <% end %>
+
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+
+

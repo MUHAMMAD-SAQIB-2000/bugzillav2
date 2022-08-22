@@ -1,0 +1,111 @@
+<p class="flash-notice"><%= params[:notice] %></p>
+
+<div class="row mx-3">
+  <div class="col-6">
+    <h3 class="mx-3">Add a new Project</h3>
+    <% if !@new %>
+      <% link_to 'Back to Project', project_path(@project) %>
+    <% end %>
+  </div>
+</div>
+<%= form_for @project do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="row mx-3">
+    <div class="col-7">
+      <div class="row mx-1">
+        <div class="form-group col-12">
+          <%= form.label :name %><br>
+          <%= form.text_field :name, :class => 'form-control' %>
+          <small class="form-text text-muted">Let's Begin a New Project!</small>
+        </div>
+      </div>
+
+      <div class="row mx-1">
+        <div class="form-group col-12">
+          <%= form.label :description %><br>
+          <%= form.text_area :description, :class => 'form-control' %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit :class => 'btn btn-success mx-3' %><br>
+      </div>
+    </div>
+
+    <div class="col-5">
+
+      <div class="row mx-3">
+        <div class="col-12">
+          <%= form.fields_for :user_projects do |f| %>
+            <%= render "projects/user_project_fields", f: f %>
+          <% end %>
+          <%= link_to_add_association 'Add User', form, :user_projects, :class => 'btn btn-info mb-2', wrap_object: Proc.new { |user_project| user_project.build_user; user_project } %>
+          <br>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<% end %>
+
+<script>
+
+    $('.user_search').select2({
+        // minimumInputLength: 2,
+        placeholder: 'Search Users',
+        theme: "classic",
+        ajax: {
+            url: '/users/user_search',
+            dataType: 'json',
+            data: function (params) {
+                return {term: params.term};
+            },
+            processResults: function (result) {
+                temp = result.map((obj) => ({text: obj.name, id: obj.id}))
+                $('.user_search').append(temp);
+                return {results: temp}
+            }
+        }
+    });
+
+    $('form').on('click', '.remove_users', (e) => {
+        console.log('calling 1')
+        $(this).prev('input[type=hidden]').val(1);
+        $(this).closest('fieldset').remove();
+        e.preventDefault();
+        console.log('calling 2')
+    });
+    try {
+        let i = 1;
+    } catch (e) {
+        console.log(e.toString())
+    }
+    // document.getElementById("btn-addDev").addEventListener('click', () => {
+    //     document.getElementById("users-body").insertAdjacentHTML('afterbegin',
+    //         '<div class="row mx-2 mb-2 input-row" data-attr="' + i.toString() + '">' +
+    //         "<div class=\"col-8\">" +
+    //         "<input type=\"text\" name=\"users[]\" id=\"users_\" list=\"name\" class=\"form-control \" placeholder=\"Select User\" autocomplete=\"off\">" +
+    //         "</div>" +
+    //         '<div class="col-4 btn-remove" onclick="removeUser(' + i.toString() + ')">' +
+    //         '<button type="button" class=" btn btn-sm btn-danger">Remove</button>' +
+    //         '</div>' +
+    //         "</div>");
+    //     i++;
+    // });
+
+
+    function removeUser(id) {
+        console.log(id, typeof id)
+        let inputs = document.getElementsByClassName('input-row')
+        let length = inputs.length;
+
+        for (let i = 0; i < length; i++) {
+            if (inputs[i].getAttribute('data-attr') === id.toString()) {
+                console.log('hurrah')
+                inputs[i].remove();
+            }
+        }
+    }
+</script>

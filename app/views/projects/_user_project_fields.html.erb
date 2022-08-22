@@ -1,0 +1,16 @@
+<!--<div class="">-->
+<div class="row nested-fields">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12">
+        <%= label_tag 'Select User (Developer/QA)' %><br>
+        <%= f.collection_select :user_id, @users, :id, :name, :class => 'form-select', :include_blank => "Placeholder" %>
+        <%#= f.select :id, options_for_select(@users.map { |user| [user.name, user.id] }), { prompt: "Select User" }, :id => 'user_search', :class => 'form-control user_search' %>
+      </div>
+    </div>
+    <!--      <br>-->
+  </div>
+  <div class="row mx-2"><%= link_to_remove_association "Remove User", f, :class => 'remove' %></div>
+</div>
+<!--</div>-->
+<br>

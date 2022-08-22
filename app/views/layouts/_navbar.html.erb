@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+  <% if user_signed_in? %>
+    <%= link_to current_user.name, user_path(current_user), :class => 'navbar-brand' %>
+  <% else %>
+    <a class="navbar-brand" href="<%= root_url %>">Home</a>
+  <% end %>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <% if user_signed_in? %>
+
+        <% if current_user.user_type == 'Manager' %>
+          <li class="nav-item active">
+            <a class="nav-link" href="<%= users_path %>">Users</a>
+          </li>
+        <% end %>
+        <%# if current_user.user_type == 'QA' %>
+          <li class="nav-item active">
+            <a class="nav-link" href="<%= projects_path %>">Projects</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="<%= bugs_path %>">Bugs</a>
+          </li>
+        <%# end %>
+      <% end %>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      <% if user_signed_in? %>
+        <li class='float-right '><%= button_to 'Log out', destroy_user_session_path, method: :delete, :class => 'btn btn-danger' %></li>
+      <% else %>
+        <li class='navbar-brand float-right'><%= link_to 'Log In', new_user_session_path, :class => 'btn btn-success' %></li>
+        <li class='navbar-brand float-right'><%= link_to 'Sign Up', new_user_registration_path, :class => 'btn btn-info' %></li>
+      <% end %>
+    </ul>
+  </div>
+
+
+</nav>
