@@ -14,6 +14,5 @@ class CreateBugs < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_foreign_key :users, :bugs, column: :assigned_to
   end
 end
