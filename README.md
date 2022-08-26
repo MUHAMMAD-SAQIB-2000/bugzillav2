@@ -70,4 +70,6 @@ Learn Gems
     • gem "select2-rails"
     • gem 'jquery-rails'
     • gem "cocoon"
+    • gem "jwt"
+    • gem "bycrypt"
       
