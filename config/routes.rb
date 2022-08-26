@@ -22,5 +22,16 @@ Rails.application.routes.draw do
 
   post '/bugs/:id', to: 'bugs#assign_to', as: :assign_to
   post '/users/:id', to: 'users#assign_project', as: :assign_project
-  # get '/projects/project_search/' => 'projects#project_search'
+  post '/auth/login', to: 'api/v1/authentication#login'
+
+  # For APIs
+
+  namespace :api do
+    namespace :v1 do
+      resources :bugs_api, only: [:index, :show, :create, :update, :destroy]
+      resources :projects_api, only: [:index, :show, :create, :update, :destroy]
+      resources :users_api, only: [:index, :show, :create, :update, :destroy]
+    end
+  end
+
 end

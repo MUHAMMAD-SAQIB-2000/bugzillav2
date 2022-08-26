@@ -12,8 +12,10 @@ gem 'jquery-rails'
 gem "byebug"
 gem 'pagy'
 gem "select2-rails"
-# gem 'jquery-rails'
+gem 'jwt'
+gem 'bcrypt'
 gem "cocoon"
+# gem 'grape'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.3", ">= 7.0.3.1"
