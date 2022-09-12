@@ -1,7 +1,8 @@
 class Api::V1::UsersApiController < Api::V1::ApplicationController
 
   # skip_before_action :verify_authenticity_token, only: [:create]
-  skip_before_action :authenticate_request , only: [:create]
+  # skip_before_action :authenticate_request , only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:index, :show, :create, :update, :destroy], raise: false
 
   def index
     @users = User.all
@@ -38,6 +39,6 @@ class Api::V1::UsersApiController < Api::V1::ApplicationController
   end
 
   def user_params
-    params.permit(:name, :password, :email, :user_type)
+    params.require(:users_api).permit(:name, :password, :email, :user_type)
   end
 end

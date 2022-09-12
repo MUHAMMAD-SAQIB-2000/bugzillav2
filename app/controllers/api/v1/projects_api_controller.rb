@@ -1,10 +1,10 @@
 class Api::V1::ProjectsApiController < Api::V1::ApplicationController
 
-  # skip_before_action :verify_authenticity_token, only: [:index, :show, :create, :update, :destroy]
-  before_action :authenticate_request
+  skip_before_action :verify_authenticity_token, only: [:index, :show, :create, :update, :destroy], raise: false
+  # before_action :authenticate_request
 
   def index
-    @projects = Project.all
+    @projects = Project.all.sort_by(&:id).reverse
     render json: @projects
   end
 
@@ -16,6 +16,8 @@ class Api::V1::ProjectsApiController < Api::V1::ApplicationController
   end
 
   def create
+    @project = Project.new
+    @project.user_projects.build
     @project = Project.create(project_params_nested)
     if @project.save
       render json: @project
@@ -45,6 +47,6 @@ class Api::V1::ProjectsApiController < Api::V1::ApplicationController
   end
 
   def project_params_nested
-    params.permit(:name, :description, :user_id, user_projects_attributes: [:id, :_destroy, :user_id])
+    params.require(:projects_api).permit(:name, :description, :user_id, user_projects_attributes: [:id, :_destroy, :user_id])
   end
 end

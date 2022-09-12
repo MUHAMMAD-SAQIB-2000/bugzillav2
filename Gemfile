@@ -15,6 +15,7 @@ gem "select2-rails"
 gem 'jwt'
 gem 'bcrypt'
 gem "cocoon"
+gem 'rack-cors', :require => 'rack/cors'
 # gem 'grape'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

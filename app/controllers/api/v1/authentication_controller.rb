@@ -1,6 +1,6 @@
 class Api::V1::AuthenticationController < Api::V1::ApplicationController
 
-  skip_before_action :authenticate_request
+  # skip_before_action :authenticate_request
 
   #POST auth/login
   def login

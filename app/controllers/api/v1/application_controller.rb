@@ -1,7 +1,8 @@
 class Api::V1::ApplicationController < ActionController::API
-  include JsonWebToken
+  # include JsonWebToken
 
-  before_action :authenticate_request
+  # before_action :authenticate_request
+  # skip_before_action :verify_authenticity_token
 
   private
 

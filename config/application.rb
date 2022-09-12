@@ -10,6 +10,16 @@ module Bugzillav2
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.action_controller.default_protect_from_forgery = true
+
+    config.api_only = true
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://localhost:8000'
+        resource '*', :headers => :any, :methods => [:get, :post, :patch, :put, :delete, :options]
+      end
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #

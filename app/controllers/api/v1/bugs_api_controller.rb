@@ -1,7 +1,7 @@
 class Api::V1::BugsApiController < Api::V1::ApplicationController
 
-  # skip_before_action :verify_authenticity_token, only: [:index, :show, :create, :update, :destroy]
-  before_action :authenticate_request
+  skip_before_action :verify_authenticity_token, only: [:index, :show, :create, :update, :destroy], raise: false
+  # before_action :authenticate_request
 
   def index
     @bugs = Bug.all
@@ -39,6 +39,6 @@ class Api::V1::BugsApiController < Api::V1::ApplicationController
 
   def bugs_params
     # byebug
-    params.permit(:title, :description, :deadline, :screenshot, :bug_type, :bug_status, :assigned_to, :project_id, :user_id)
+    params.require(:bugs_api).permit(:title, :description, :deadline, :screenshot, :bug_type, :bug_status, :assigned_to, :project_id, :user_id)
   end
 end
